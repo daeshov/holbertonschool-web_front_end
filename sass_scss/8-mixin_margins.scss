@@ -7,4 +7,6 @@ body {
   @include margin(10px);
 }
 
-    
+  div {
+    @include margin($margin: 15px);
+  }
