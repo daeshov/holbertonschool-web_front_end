@@ -180,16 +180,17 @@ html{line-height:1.15;-webkit-text-size-adjust:100%}body{margin:0}main{display:b
   
   /* Grid
       ============================= */
-  
-  ul.row {
+  .row {
     display: flex;
+  }
+
+  ul.row {
     margin: 0;
     padding: 0;
     list-style: none;
   }
   
   [class*='col-'] {
-    
     padding: 0.5rem;
   }
   
