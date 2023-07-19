@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+    <head>
+
+        <meta charset="utf-8" />
+        <title>Task 0</title>
+        <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    </head>
+
+    <body>
+
+      <script type="application/javascript">
+     function addNewArticle(id, title, snippet) {
+      var ul = $('#searchResults');
+      var li = $('<li></li>');
+      var p1 = $('<p></p>').appendTo(li);
+      $('<span></span>').text('id - ').appendTo(p1);
+      $('<b></b>').text(title).appendTo(p1);
+      var p2 = $('<p></p>').appendTo(li);
+      p2.html(snippet); // Display snippet HTML correctly
+      li.appendTo(ul);
+    }
+
+    function queryWikipedia(search) {
+      var apiUrl = "https://en.wikipedia.org/w/api.php" + '?origin=*'
+
+      $.ajax({
+        url: apiUrl,
+        dataType: 'json',
+        type: "GET",
+        data: {
+                    action: 'query',
+                    format: 'json',
+                    list: 'search',
+                    srsearch: search
+                  },
+        success: function(data) {
+          var searchResults = data.query.search;
+          for (var i = 0; i < searchResults.length; i++) {
+            var pageid = searchResults[i].pageid;
+            var title = searchResults[i].title;
+            var snippet = searchResults[i].snippet;
+            addNewArticle(pageid, title, snippet);
+          }
+        }
+      });
+    }
+
+    function createSearchForm() {
+      var form = $('<form></form>').appendTo('body');
+      var input = $('<input type="text">').appendTo(form);
+      var submitBtn = $('<input type="submit" value="Search">').appendTo(form);
+      var ul = $('<ul id="searchResults"></ul>').appendTo('body');
+
+      form.submit(function(e) {
+        e.preventDefault();
+        var searchText = input.val();
+        ul.empty(); // Clear previous search results
+        queryWikipedia(searchText);
+      });
+    }
+
+    $(document).ready(function() {
+      createSearchForm();
+    });
+
+
+      </script>
+
+    </body>
+
+</html>
