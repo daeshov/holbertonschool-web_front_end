@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>task0</title>
+  </head>
+  <body>
+    <h1>Login to the website</h1>
+    
+    <input aria-label="1" type="text" id="firstname" placeholder="Firstname"/>
+    <input aria-label="2" type="text" id="email" placeholder="email@example.com"/>
+    <button onclick="setCookies()">Log me in</button>
+  
+    <h1>Cookies</h1>
+    <button onclick="showCookies()">Show me the cookies</button>
+
+    <script type="text/javascript">
+      function setCookies() {
+        document.cookie = `firstname=${document.querySelector('#firstname').value}`;
+        document.cookie = `email=${document.querySelector('#email').value}`;
+        
+        const xdate = new Date(10);
+        xdate.setTime(xdate.getTime() + (10 * 24 * 60 * 60 * 1000));
+        document.cookie =`expires=${xdate.toUTCString()}`;
+    
+
+      }
+
+      function showCookies() {
+        const p = document.createElement('p');
+        p.innerHTML = `Cookies: ${document.cookie}`;
+        document.body.appendChild(p);
+        }
+
+    </script>
+  </body>
+</html>

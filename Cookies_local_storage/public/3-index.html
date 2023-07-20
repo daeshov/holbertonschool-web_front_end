@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>task0</title>
+  </head>
+  <body>
+    <h2>Login to the website</h2>
+    <div id="Login">
+      <input aria-label="1" type="text" id="firstname" placeholder="Firstname"/>
+      <input aria-label="2" type="text" id="email" placeholder="email@example.com"/>
+      <button onclick="setCookies()">Log me in</button>
+    </div>
+  
+    <h1>Cookies</h1>
+    <button onclick="showCookies()">Show me the cookies</button>
+
+    <script type="text/javascript">
+        function setCookies() {
+        const firstname = document.querySelector('#firstname').value;
+        const email = document.querySelector('#email').value;
+
+        const expirationDate = new Date();
+        expirationDate.setDate(expirationDate.getDate() + 10);
+
+        document.cookie = `firstname=${encodeURIComponent(firstname)}; expires=${expirationDate.toUTCString()}`;
+        document.cookie = `email=${encodeURIComponent(email)}; expires=${expirationDate.toUTCString()}`;
+      }
+
+    
+      function getCookie(name) {
+        const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.startsWith(name + '=')) {
+                    return cookie.split('=')[1];
+                }
+            }
+            return '';
+        }
+
+        function showCookies() {
+        const email = getCookie('email');
+        const firstname = getCookie('firstname');
+        const p = document.createElement('p');
+        p.innerHTML = `Email: ${email} - Firstname: ${firstname}`;
+        document.body.appendChild(p);
+        }
+
+        function showForm() {
+          const welcomeMessage = document.querySelector('h1');
+          if (welcomeMessage) {
+            welcomeMessage.remove();
+          }
+        }
+    
+        function hideform() {
+          document.querySelector('div').style.display = 'none';
+        }
+    
+        function deleteCookiesAndShowForm() {
+          document.cookie = "firstname=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+          document.cookie = "email=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+          showForm();
+        }
+
+        function showWelcomeMessageOrForm() {
+          const firstname = getCookie('firstname');
+          if (!firstname) {
+            showForm();
+          } else {
+            const h1 = document.createElement('h1');
+            h1.id = 'welcome-message';
+            h1.innerHTML = `Welcome ${firstname}`;
+            const logoutLink = document.createElement('span');
+            logoutLink.innerHTML = '(logout)';
+            logoutLink.style.cursor = 'pointer';
+            logoutLink.style.fontWeight = 'normal';
+            logoutLink.style.fontStyle = 'italic';
+            logoutLink.style.marginLeft = '10px';
+            // The following line is not calling deleteCookiesAndShowForm, rather
+            // setting it as an event handler.  This is why we do not use '()'.
+            logoutLink.onclick = deleteCookiesAndShowForm;
+            h1.appendChild(logoutLink);
+            document.body.appendChild(h1);
+          }
+          
+        }
+        showWelcomeMessageOrForm();
+    
+    </script>
+  </body>
+</html>
